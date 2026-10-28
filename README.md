@@ -7,6 +7,7 @@ from company projects and tenders. No SQLite, hosted model API or agent daemon.
 ## What Is Here
 
 - `AGENT.md`: the bounded orchestration workflow for an authorized agent host.
+- `skills/job-search-agent`: a discoverable entrypoint that loads that workflow.
 - `skills/job-search-discovery`: public-feed collector, triage and source cursors.
 - `skills/resume-update`: evidence-led native CV edits and read-only PDF checks.
 - `skills/job-apply`: complete-field application workflow and coverage checker.
@@ -64,6 +65,9 @@ The instructions can be read by Codex, Moltis or another host; compatibility
 requires its own authorized filesystem, browser/document and cloud adapters.
 Neither a Moltis browser integration nor a cloud scheduler is included/tested
 here. Local desktop operation requires that computer and host to be available.
+See [Moltis connection](docs/moltis.md) for installation, trust, private bindings
+and a read-only activation check. Installing the entrypoint does not replace
+existing host adapters or start another daily schedule.
 
 ## Privacy And Action Boundaries
 

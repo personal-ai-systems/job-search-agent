@@ -38,7 +38,7 @@ class PackageTests(unittest.TestCase):
                 self.assertTrue(address.endswith("@example.com") or address.endswith("@example.org"), (str(p), address))
 
     def test_skill_entrypoints_and_local_references(self):
-        for name in ("job-search-discovery", "resume-update", "job-apply"):
+        for name in ("job-search-agent", "job-search-discovery", "resume-update", "job-apply"):
             path = ROOT / "skills" / name / "SKILL.md"
             text = path.read_text()
             self.assertTrue(text.startswith("---\nname: " + name + "\n"))
@@ -52,6 +52,13 @@ class PackageTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, path)
         result = subprocess.run(["git", "check-ignore", "--no-index", "examples/workspace/host.md"], cwd=ROOT, capture_output=True)
         self.assertEqual(result.returncode, 1)
+
+    def test_orchestrator_loads_real_root_without_scheduler(self):
+        path = ROOT / "skills" / "job-search-agent" / "SKILL.md"
+        self.assertIn("../../AGENT.md", path.read_text())
+        self.assertTrue((path.parent / "../../AGENT.md").resolve().is_file())
+        self.assertIn("No second schedule", path.read_text())
+        self.assertTrue((ROOT / "docs" / "moltis.md").is_file())
 
 
 if __name__ == "__main__":

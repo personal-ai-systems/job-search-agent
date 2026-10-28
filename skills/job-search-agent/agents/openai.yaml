@@ -1,0 +1,4 @@
+interface:
+  display_name: "Job Search Agent"
+  short_description: "Run the search workflow with private host bindings"
+  default_prompt: "Use $job-search-agent to resume one bounded run from my configured private intent, checkpoint and existing tracker, preserving all current approval gates."
