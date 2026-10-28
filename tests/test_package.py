@@ -1,6 +1,7 @@
 from pathlib import Path
 import re
 import subprocess
+import tempfile
 import unittest
 
 
@@ -47,11 +48,16 @@ class PackageTests(unittest.TestCase):
                 self.assertTrue((path.parent / ref).is_file(), (name, ref))
 
     def test_private_paths_ignored_but_examples_included(self):
-        for path in ("private/profile.md", "workspace/intent.md", "runtime/run.md", ".env", "data/example.json", "person.pdf", "opportunities/job.md"):
-            result = subprocess.run(["git", "check-ignore", "--no-index", path], cwd=ROOT, capture_output=True)
-            self.assertEqual(result.returncode, 0, path)
-        result = subprocess.run(["git", "check-ignore", "--no-index", "examples/workspace/host.md"], cwd=ROOT, capture_output=True)
-        self.assertEqual(result.returncode, 1)
+        # Archive-based hosts have no .git directory; exercise the real rules in isolation.
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            subprocess.run(["git", "init", "-q", str(root)], check=True, capture_output=True)
+            (root / ".gitignore").write_text((ROOT / ".gitignore").read_text())
+            for path in ("private/profile.md", "workspace/intent.md", "runtime/run.md", ".env", "data/example.json", "person.pdf", "opportunities/job.md"):
+                result = subprocess.run(["git", "check-ignore", "--no-index", path], cwd=root, capture_output=True)
+                self.assertEqual(result.returncode, 0, path)
+            result = subprocess.run(["git", "check-ignore", "--no-index", "examples/workspace/host.md"], cwd=root, capture_output=True)
+            self.assertEqual(result.returncode, 1)
 
     def test_orchestrator_loads_real_root_without_scheduler(self):
         path = ROOT / "skills" / "job-search-agent" / "SKILL.md"
