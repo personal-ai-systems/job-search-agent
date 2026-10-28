@@ -1,0 +1,4 @@
+interface:
+  display_name: "Job Search Discovery"
+  short_description: "Find opportunities, preserve evidence and blockers"
+  default_prompt: "Use $job-search-discovery with my configured private intent and source catalogue to find and review new opportunities without submitting."

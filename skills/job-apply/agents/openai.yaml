@@ -1,0 +1,4 @@
+interface:
+  display_name: "Job Apply"
+  short_description: "Complete applications, ask gaps, verify receipts"
+  default_prompt: "Use $job-apply to prepare the application at this link, recover my current CV and known answers, ask about every unresolved field and stop for exact-copy submission approval."

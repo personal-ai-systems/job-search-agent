@@ -1,0 +1,4 @@
+interface:
+  display_name: "Resume Update"
+  short_description: "Evidence-led CV updates and Pages/PDF layout checks"
+  default_prompt: "Use $resume-update to update or repair my resume, preserving my latest edits and verifying the saved Pages and PDF copies."
